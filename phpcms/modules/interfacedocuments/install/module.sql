@@ -1,0 +1,2 @@
+INSERT INTO `phpcms_module` (`module`, `name`, `url`, `iscore`, `version`, `description`, `setting`, `listorder`, `disabled`, `installdate`, `updatedate`) VALUES
+('interfacedocuments', '接口文档管理', 'interfacedocuments/', 0, '1.0', '', '', 0, 0, '2017-03-02', '2017-03-02');

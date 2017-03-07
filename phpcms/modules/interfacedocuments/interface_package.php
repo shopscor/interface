@@ -46,5 +46,28 @@ class interface_package extends admin {
             include $this->admin_tpl('package_add');
         }
     }
+
+    public function edit() {
+        if(isset($_POST['dosubmit'])) {
+            $id = $_POST['info']['id'] ;
+            if(!$this->op->check_package_name($_POST['info']['name'], $id)){
+                showmessage('包名已经存在');
+            } else {
+                $info['name'] = $_POST['info']['name'];
+            }
+
+            $info['description'] = trim($_POST['info']['description']);
+
+            $this->package_db->update($info, array('id' => $id));
+
+            showmessage('修改成功','?m=interfacedocuments&c=interface_package');
+        } else {
+
+            $id = $_GET['id'];
+            $result = $this->package_db->get_one(array('id'=>$id));
+
+            include $this->admin_tpl('package_edit');
+        }
+    }
 }
 ?>

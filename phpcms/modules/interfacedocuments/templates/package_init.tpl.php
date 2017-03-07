@@ -22,7 +22,7 @@ include $this->admin_tpl('header', 'admin');
                             <td align="center" width="220"><?php echo $d['name']?></td>
                             <td align="center"><?php echo $d['description']?></td>
                             <td align="center">
-                                <?php if ($modules[$d]['iscore']) {?><span style="color: #999"><?php echo L('ban')?></span><?php } else {?><a href="javascript:void(0);" onclick="if(confirm('<?php echo L('confirm', array('message'=>$modules[$d]['name']))?>')){uninstall('<?php echo $d?>');return false;}"><font color="red"><?php echo L('unload')?></font></a><?php }?>
+                                <a href="?m=interfacedocuments&c=interface_package&a=edit&id=<?php echo $d['id'] ?>"><font color="red">编辑</font></a>
                             </td>
                         </tr>
 

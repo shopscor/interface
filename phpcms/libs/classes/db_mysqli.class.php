@@ -28,6 +28,8 @@ final class db_mysqli {
 	 *  统计数据库查询次数
 	 */
 	public $querycount = 0;
+
+	public $last_sql ;
 	
 	public function __construct() {
 
@@ -75,6 +77,7 @@ final class db_mysqli {
 		if(!is_object($this->link)) {
 			$this->connect();
 		}
+		$this->last_sql = $sql;
 		$this->lastqueryid = $this->link->query($sql) or $this->halt($this->link->error, $sql);
 		$this->querycount++;
 		return $this->lastqueryid;

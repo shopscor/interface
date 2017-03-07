@@ -82,7 +82,7 @@ final class mysql {
 		if(!is_resource($this->link)) {
 			$this->connect();
 		}
-		
+
 		$this->lastqueryid = mysql_query($sql, $this->link) or $this->halt(mysql_error(), $sql);
 
 		$this->querycount++;

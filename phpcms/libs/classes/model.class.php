@@ -231,4 +231,8 @@ class model {
 	final public function version() {
 		return $this->db->version();
 	}
+
+	final public function sql() {
+	    return $this->db->last_sql;
+    }
 }

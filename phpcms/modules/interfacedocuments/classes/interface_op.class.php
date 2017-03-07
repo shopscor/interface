@@ -11,19 +11,33 @@ class interface_op {
 	/*
 	 * 检查包名是否重复
 	 */	
-	public function check_package_name($name) {
+	public function check_package_name($name, $ignore_id=0) {
         $name =  trim($name);
-		if ($this->interface_package->get_one(array('name'=>$name),'id')){
-			return false;
-		}
+         if ( $ignore_id == 0 ) {
+             if ($this->interface_package->get_one(array('name'=>$name),'id')){
+                 return false;
+             }
+         } else {
+             if ($this->interface_package->get_one('name="'.$name.'" and id != ' . $ignore_id, 'id')){
+                 return false;
+             }
+         }
 		return true;
 	}
 
-	public function check_interface_name($name){
+	public function check_interface_name($name, $ignore_id = 0){
         $name =  trim($name);
-        if ($this->interface_db->get_one(array('name'=>$name),'id')){
-            return false;
+        if ( $ignore_id == 0 ) {
+            if ($this->interface_db->get_one(array('name'=>$name),'id')){
+                return false;
+            }
+        } else {
+            if ($this->interface_db->get_one('name="'.$name.'" and id != ' . $ignore_id, 'id')){
+                return false;
+            }
         }
+
+
         return true;
     }
 }

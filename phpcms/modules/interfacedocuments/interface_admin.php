@@ -20,7 +20,13 @@ class interface_admin extends admin {
 
     public function lists() {
 
-        $interface_packages = $this->package_db->select('disabled=0', '*');
+        $interface_packages_data = $this->package_db->select('disabled=0', '*');
+        $interface_packages= array();
+        if ( is_array($interface_packages_data) && count($interface_packages_data) > 0 ) {
+            foreach ($interface_packages_data as $key => $value) {
+                $interface_packages[$value['id']] = $value;
+            }
+        }
 
         $page = isset($_GET['page']) && intval($_GET['page']) ? intval($_GET['page']) : 1;
         $infos = $this->interface_db->listinfo($where = 'disabled=0',$order = 'sort DESC',$page, $page_size = '13');
@@ -109,6 +115,81 @@ class interface_admin extends admin {
         }
 
         return $param;
+    }
+
+    public function detail() {
+        $interface_packages_data = $this->package_db->select('disabled=0', '*');
+        $interface_packages= array();
+        if ( is_array($interface_packages_data) && count($interface_packages_data) > 0 ) {
+            foreach ($interface_packages_data as $key => $value) {
+                $interface_packages[$value['id']] = $value;
+            }
+        }
+
+        $interface_info = $this->interface_db->get_one(array('id'=>$_GET['id']));
+
+        $interface_header = $this->interface_header_db->select(array('interface_id' => $_GET['id']));
+        $interface_param = $this->interface_parameter_db->select(array('interface_id' => $_GET['id']));
+
+        if ( isset($_POST['dosubmit']) ) {
+            if ( is_array($interface_header) && count($interface_header) > 0 ) {
+                foreach ($interface_header as $key => $value) {
+                    $interface_header[$key]['header_value'] = $_POST['info_header'][$key+1]['header_value'];
+                }
+            }
+
+            if ( is_array($interface_param) && count($interface_param) > 0 ) {
+                foreach ($interface_param as $key => $value) {
+                    if ( $value['param_type'] != 3) {
+                        $interface_param[$key]['param_default_value'] = $_POST['info_param'][$key+1]['param_default_value'];
+                    } else {
+                        $interface_param[$key]['param_default_value'] = $_POST['info_param'][$key+1]['enmu_select'];
+                    }
+
+                }
+            }
+            $response_string = $this->send_http_request($interface_info, $interface_header, $interface_param);
+        }
+
+        include $this->admin_tpl('interface_admin_detail');
+    }
+
+    private function send_http_request($info, $header, $param) {
+
+        $ch = curl_init();
+
+        $url = $info['request_url'];
+        $param_array = array();
+        if ( is_array($param) && count($param) > 0 ) {
+            foreach ($param as $key => $value) {
+                $param_array[] = $value['param_key'] . '=' . $value['param_default_value'];
+            }
+        }
+        if ( $info['request_method'] == 'POST') {
+            curl_setopt($ch, CURLOPT_POST, true);    // post 提交方式
+
+            $params = implode('&', $param_array);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        } else {
+            $url = $url . '?' . implode('&', $param_array);
+        }
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        $headers = array(
+            'User-Agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/2008052906 Firefox/3.0',
+        );
+        if(is_array($header) && count($header) > 0) {
+            foreach ($header as $key => $value) {
+                $headers[] = $value['header_key'] . ':' . $value['header_value'];
+            }
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $output = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $output;
     }
 }
 ?>

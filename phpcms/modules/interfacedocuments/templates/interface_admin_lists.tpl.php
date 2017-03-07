@@ -62,7 +62,7 @@
 
 
 		<td align="left">
-			<a href="javascript:edit(<?php echo $v['userid']?>, '<?php echo $v['username']?>')">[<?php echo L('edit')?>]</a>
+            <a href="?m=interfacedocuments&c=interface_admin&a=detail&id=<?php echo $v['id']?>">查看</a>
 		</td>
     </tr>
 <?php

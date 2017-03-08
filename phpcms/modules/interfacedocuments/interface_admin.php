@@ -70,7 +70,7 @@ class interface_admin extends admin {
     }
 
     private function check_interface_info($info) {
-        if ( strlen($info['name']) == '' ||  !$this->op->check_package_name($_POST['info']['name'])) {
+        if ( strlen($info['name']) == '' ||  !$this->op->check_package_name($_POST['info']['name'], $info['id'])) {
             showmessage('接口名称已存在');
         } else {
             $info['name']= trim($info['name']);
@@ -115,6 +115,54 @@ class interface_admin extends admin {
         }
 
         return $param;
+    }
+
+    public function edit() {
+        $interface_packages_data = $this->package_db->select('disabled=0', '*');
+        $interface_packages= array();
+        if ( is_array($interface_packages_data) && count($interface_packages_data) > 0 ) {
+            foreach ($interface_packages_data as $key => $value) {
+                $interface_packages[$value['id']] = $value;
+            }
+        }
+
+        $interface_info = $this->interface_db->get_one(array('id'=>$_GET['id']));
+
+        $interface_header = $this->interface_header_db->select(array('interface_id' => $_GET['id']));
+        $interface_param = $this->interface_parameter_db->select(array('interface_id' => $_GET['id']));
+
+        if ( isset($_POST['dosubmit']) ) {
+            $info_id = $_POST['info']['id'];
+            $interface_info_edit = $this->check_interface_info($_POST['info']);
+            $interface_header_edit = $this->check_header($_POST['info_header']);
+            $interface_param_edit = $this->check_parameter($_POST['info_param']);
+
+            $this->interface_db->update($interface_info_edit, array('id' => $info_id));
+            if ( $info_id ) {
+
+                $this->interface_header_db->delete(array('interface_id' => $info_id));
+                $this->interface_parameter_db->delete(array('interface_id' => $info_id));
+
+                foreach ($interface_header_edit as $key => $value) {
+                    $value['interface_id'] = $info_id;
+                    $this->interface_header_db->insert($value);
+                }
+
+                foreach ($interface_param_edit as $key => $value) {
+                    $value['interface_id'] = $info_id;
+                    $this->interface_parameter_db->insert($value);
+                }
+
+                showmessage('修改成功','?m=interfacedocuments&c=interface_admin&a=lists');
+            } else {
+                showmessage('修改失败');
+            }
+
+        } else {
+            include $this->admin_tpl('interface_admin_edit');
+        }
+
+
     }
 
     public function detail() {

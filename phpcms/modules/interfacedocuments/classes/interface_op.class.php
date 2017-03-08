@@ -13,7 +13,7 @@ class interface_op {
 	 */	
 	public function check_package_name($name, $ignore_id=0) {
         $name =  trim($name);
-         if ( $ignore_id == 0 ) {
+         if ( $ignore_id == 0 || $ignore_id == null) {
              if ($this->interface_package->get_one(array('name'=>$name),'id')){
                  return false;
              }

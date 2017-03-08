@@ -62,7 +62,8 @@
 
 
 		<td align="left">
-            <a href="?m=interfacedocuments&c=interface_admin&a=detail&id=<?php echo $v['id']?>">查看</a>
+            <a href="?m=interfacedocuments&c=interface_admin&a=detail&id=<?php echo $v['id']?>">查看</a> |
+            <a href="?m=interfacedocuments&c=interface_admin&a=edit&id=<?php echo $v['id']?>">编辑</a>
 		</td>
     </tr>
 <?php

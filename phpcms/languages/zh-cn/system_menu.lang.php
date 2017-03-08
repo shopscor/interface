@@ -465,4 +465,5 @@ $LANG['interface manage'] = '接口管理';
 $LANG['add interface'] = '新增接口';
 $LANG['interface edit'] = '接口修改';
 $LANG['interface package edit'] = '接口包修改';
+$LANG['interface detail'] = '接口 查看';
 ?>

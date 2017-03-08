@@ -23,6 +23,7 @@ include $this->admin_tpl('header', 'admin');
                             <td align="center"><?php echo $d['description']?></td>
                             <td align="center">
                                 <a href="?m=interfacedocuments&c=interface_package&a=edit&id=<?php echo $d['id'] ?>"><font color="red">编辑</font></a>
+                                <a href="?m=interfacedocuments&c=interface_package&a=create_word&id=<?php echo $d['id'] ?>"><font color="red">下载word</font></a>
                             </td>
                         </tr>
 

@@ -15,6 +15,8 @@ if(!defined('PHPCMS_PATH')) define('PHPCMS_PATH', PC_PATH.'..'.DIRECTORY_SEPARAT
 
 //缓存文件夹地址
 define('CACHE_PATH', PHPCMS_PATH.'caches'.DIRECTORY_SEPARATOR);
+// vendor 文件夹地址
+define('VENDOR_PATH', PHPCMS_PATH.'vendor'.DIRECTORY_SEPARATOR);
 //主机协议
 define('SITE_PROTOCOL', isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://');
 //当前访问的主机名

@@ -70,13 +70,13 @@ class interface_admin extends admin {
     }
 
     private function check_interface_info($info) {
-        if ( strlen($info['name']) == '' ||  !$this->op->check_package_name($_POST['info']['name'], $info['id'])) {
+        if ( strlen($info['name']) == 0 ||  !$this->op->check_package_name($_POST['info']['name'], $info['id'])) {
             showmessage('接口名称已存在');
         } else {
             $info['name']= trim($info['name']);
         }
 
-        if ( strlen($info['request_url']) == '' || !isUrl($info['request_url'])) {
+        if ( strlen($info['request_url']) == 0 || !isUrl($info['request_url'])) {
             showmessage('请输入正确的URL');
         } else {
             $info['request_url'] = trim($info['request_url']);
@@ -87,9 +87,9 @@ class interface_admin extends admin {
 
     private function check_header($header) {
         foreach ($header as $key=>$value) {
-            if (strlen($value['header_key']) == '' && strlen($value['header_value']) == ''){
+            if (strlen($value['header_key']) == 0 && strlen($value['header_value']) ==0){
                 continue;
-            } elseif (strlen($value['header_key']) == '' || strlen($value['header_value']) == '') {
+            } elseif (strlen($value['header_key']) == 0 || strlen($value['header_value']) == 0) {
                 showmessage('Request Header 键值对必须都不为空');
             } else {
                 $header[$key]['header_key'] = trim($value['header_key']);
@@ -103,11 +103,11 @@ class interface_admin extends admin {
     private function check_parameter($param) {
         foreach ($param as $key=>$value) {
 
-            if ($value['param_type'] == 3 && strlen($value['enum_string']) == '') {
+            if ($value['param_type'] == 3 && strlen($value['enum_string']) == 0) {
                 showmessage('Request Param 中 Enum 值不能为空');
             }
 
-            if (strlen($value['param_key']) == ''){
+            if (strlen($value['param_key']) == 0){
                 continue;
             } else {
                 $param[$key]['param_key'] = trim($value['param_key']);

@@ -239,5 +239,19 @@ class interface_admin extends admin {
 
         return $output;
     }
+
+    public function delete() {
+        if(isset($_GET['dosubmit'])) {
+            $id = $_GET['id'];
+
+            // 需要删除3张表的数据
+            $this->interface_db->delete(array('id' => $id));
+            $this->interface_parameter_db->delete(array('interface_id' => $id));
+            $this->interface_header_db->delete(array('interface_id' => $id));
+            showmessage('删除成功',HTTP_REFERER);
+        } else {
+            showmessage('删除失败');
+        }
+    }
 }
 ?>

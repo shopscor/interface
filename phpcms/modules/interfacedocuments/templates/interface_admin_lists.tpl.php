@@ -37,7 +37,7 @@
 </table>
 </form>
 
-<form name="myform" action="?m=interfacedocuments&c=interface_admin&a=init" method="post" onsubmit="checkuid();return false;">
+<form class="myform" name="myform" action="?m=interfacedocuments&c=interface_admin&a=init" method="post" >
 <div class="table-list">
 <table width="100%" cellspacing="0">
 	<thead>
@@ -63,7 +63,10 @@
 
 		<td align="left">
             <a href="?m=interfacedocuments&c=interface_admin&a=detail&id=<?php echo $v['id']?>">查看</a> |
-            <a href="?m=interfacedocuments&c=interface_admin&a=edit&id=<?php echo $v['id']?>">编辑</a>
+
+
+            <a href="?m=interfacedocuments&c=interface_admin&a=edit&id=<?php echo $v['id']?>">编辑</a> |
+            <a href="?m=interfacedocuments&c=interface_admin&a=delete&dosubmit=1&id=<?php echo $v['id']?>" onclick="confirm('<?php echo L('是否删除', array('message' => L('selected')));?>')">删除</a>
 		</td>
     </tr>
 <?php
@@ -86,36 +89,6 @@
 </div>
 <script type="text/javascript">
 <!--
-function edit(id, name) {
-	window.top.art.dialog({id:'edit'}).close();
-	window.top.art.dialog({title:'<?php echo L('edit').L('member')?>《'+name+'》',id:'edit',iframe:'?m=member&c=member&a=edit&userid='+id,width:'700',height:'500'}, function(){var d = window.top.art.dialog({id:'edit'}).data.iframe;d.document.getElementById('dosubmit').click();return false;}, function(){window.top.art.dialog({id:'edit'}).close()});
-}
-function move() {
-	var ids='';
-	$("input[name='userid[]']:checked").each(function(i, n){
-		ids += $(n).val() + ',';
-	});
-	if(ids=='') {
-		window.top.art.dialog({content:'<?php echo L('plsease_select').L('member')?>',lock:true,width:'200',height:'50',time:1.5},function(){});
-		return false;
-	}
-	window.top.art.dialog({id:'move'}).close();
-	window.top.art.dialog({title:'<?php echo L('move').L('member')?>',id:'move',iframe:'?m=member&c=member&a=move&ids='+ids,width:'700',height:'500'}, function(){var d = window.top.art.dialog({id:'move'}).data.iframe;d.$('#dosubmit').click();return false;}, function(){window.top.art.dialog({id:'move'}).close()});
-}
-
-function checkuid() {
-	var ids='';
-	$("input[name='userid[]']:checked").each(function(i, n){
-		ids += $(n).val() + ',';
-	});
-	if(ids=='') {
-		window.top.art.dialog({content:'<?php echo L('plsease_select').L('member')?>',lock:true,width:'200',height:'50',time:1.5},function(){});
-		return false;
-	} else {
-		myform.submit();
-	}
-}
-
 //-->
 </script>
 </body>
